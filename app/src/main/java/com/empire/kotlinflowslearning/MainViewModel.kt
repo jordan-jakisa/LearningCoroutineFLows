@@ -48,10 +48,23 @@ class MainViewModel : ViewModel() {
                 it % 2 == 0
             }
             println("The count is $count")
+
+            //Terminal flow operator: Counts the number of items matching the condition
+            val reduce = countDownFlow
+                // .fold(100)
+                .reduce { accumulator, value ->
+                    accumulator + value
+                }
+            println("Reduce is: $reduce")
+
+            val indexes = (0..5).asFlow()
+
+            // .buffer() ensures that code block in flow and collect run in different coroutines.
+            // .conflate() opposite to buffer
         }
 
         //does the same role as the above block of code without the flow operators
-        countDownFlow.onEach {time ->
+        countDownFlow.onEach { time ->
             println(time)
         }.launchIn(viewModelScope)
     }
